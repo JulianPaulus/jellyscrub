@@ -36,6 +36,9 @@ jobs:
         with:
           dotnet-target: "${{ inputs.dotnet-target }}"
 
+      - name: debug
+        run: ls -lah .
+
       - name: Upload Artifact
         uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # tag=v3
         with:
