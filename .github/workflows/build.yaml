@@ -30,22 +30,8 @@ jobs:
         with:
           dotnet-version: "${{ inputs.dotnet-version }}"
 
-      - name: Build Jellyfin Plugin
-        uses: oddstr13/jellyfin-plugin-repository-manager@a7795e010e63a6dcbbd5e6d8274f801d021f1045 # tag=v0.5.0
-        id: jprm
-        with:
-          dotnet-target: "${{ inputs.dotnet-target }}"
+      - name: Install dependencies
+        run: dotnet restore
 
-      - name: debug
-        run: ls -lah .
-      - name: debug2
-        run: ls -lah artifacts
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # tag=v3
-        with:
-          name: build-artifact
-          retention-days: 30
-          if-no-files-found: error
-          path: ./artifacts
-#          path: ${{ steps.jprm.outputs.artifact }}
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
