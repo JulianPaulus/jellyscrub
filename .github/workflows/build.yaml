@@ -35,3 +35,11 @@ jobs:
 
       - name: Build
         run: dotnet build --configuration Release --no-restore
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact
+          retention-days: 30
+          if-no-files-found: error
+          path: Nick.Plugin.Jellyscrub/bin/Release/net6.0/Nick.Plugin.Jellyscrub.dll
