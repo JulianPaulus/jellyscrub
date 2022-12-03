@@ -73,7 +73,7 @@ public class OldMediaEncoder
 
         var vf = "-autoscale 0 -r 1/" + interval.TotalSeconds.ToString(CultureInfo.InvariantCulture);
         var maxWidthParam = maxWidth.ToString(CultureInfo.InvariantCulture);
-        var maxHeightParam = (maxWidth / 2).toString(CultureInfo.InvariantCulture);
+        var maxHeightParam = (maxWidth / 2).ToString(CultureInfo.InvariantCulture);
 
         vf += string.Format(CultureInfo.InvariantCulture, " -vf 'scale_vaapi=format=nv12:w={0}:h={1},hwdownload,format=nv12'", maxWidthParam, maxHeightParam);
 
