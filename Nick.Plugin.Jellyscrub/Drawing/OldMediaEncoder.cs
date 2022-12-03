@@ -71,10 +71,11 @@ public class OldMediaEncoder
     {
         var inputArgument = _mediaEncoder.GetInputArgument(inputFile, mediaSource);
 
-        var vf = "-filter:v fps=1/" + interval.TotalSeconds.ToString(CultureInfo.InvariantCulture);
+        var vf = "-autoscale 0 -r 1/" + interval.TotalSeconds.ToString(CultureInfo.InvariantCulture);
         var maxWidthParam = maxWidth.ToString(CultureInfo.InvariantCulture);
+        var maxHeightParam = (maxWidth / 2).toString(CultureInfo.InvariantCulture);
 
-        vf += string.Format(CultureInfo.InvariantCulture, ",scale=min(iw\\,{0}):trunc(ow/dar/2)*2", maxWidthParam);
+        vf += string.Format(CultureInfo.InvariantCulture, " -vf 'scale_vaapi=format=nv12:w={0}:h={1},hwdownload,format=nv12'", maxWidthParam, maxHeightParam);
 
         // HDR Software Tonemapping
         if ((string.Equals(videoStream?.ColorTransfer, "smpte2084", StringComparison.OrdinalIgnoreCase)
@@ -87,7 +88,7 @@ public class OldMediaEncoder
         Directory.CreateDirectory(targetDirectory);
         var outputPath = Path.Combine(targetDirectory, filenamePrefix + "%08d.jpg");
 
-        var args = string.Format(CultureInfo.InvariantCulture, "-threads {3} -hwaccel vaapi -hwaccel_device /dev/dri/renderD128 -hwaccel_output_format vaapi -i {0} -c:v mjpeg_vaapi -threads {4} - -v quiet {2} -f image2 \"{1}\"", inputArgument, outputPath, vf, _threads, _threads);
+        var args = string.Format(CultureInfo.InvariantCulture, "-threads {3} -hwaccel vaapi -hwaccel_device /dev/dri/renderD128 -hwaccel_output_format vaapi -i {0} -c:v -threads {4} -v quiet {2} -f image2 \"{1}\"", inputArgument, outputPath, vf, _threads, _threads);
 
         if (!string.IsNullOrWhiteSpace(container))
         {
