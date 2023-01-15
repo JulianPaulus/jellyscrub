@@ -71,6 +71,8 @@ public class OldMediaEncoder
     {
         var inputArgument = _mediaEncoder.GetInputArgument(inputFile, mediaSource);
 
+        Console.WriteLine("JELLYSCRUB - DEBUG\n{0}", mediaSource.Formats);
+
         var vf = "-autoscale 0 -r 1/" + interval.TotalSeconds.ToString(CultureInfo.InvariantCulture);
         var maxWidthParam = maxWidth.ToString(CultureInfo.InvariantCulture);
         var maxHeightParam = (maxWidth / 2).ToString(CultureInfo.InvariantCulture);
